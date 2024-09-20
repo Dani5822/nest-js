@@ -31,7 +31,7 @@ export class AppController {
   }
 
   @Get("/quotes")
-  @Render('listaidezet')
+  @Render('listidezet')
   getqoutes() {
     return {
       message:"BAZ+",
