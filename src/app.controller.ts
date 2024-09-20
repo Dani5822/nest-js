@@ -1,4 +1,4 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Param, Render } from '@nestjs/common';
 import { AppService } from './app.service';
 import { quotes } from './quotes';
 import { randomInt } from 'crypto';
@@ -9,9 +9,9 @@ interface AuthorQuotes {
   quotes: any;
 }
 
-function tartalmaz(lista:AuthorQuotes[],nev:string) {
-  for(let element of lista) {
-    if(element.author==nev){
+function tartalmaz(lista: AuthorQuotes[], nev: string) {
+  for (let element of lista) {
+    if (element.author == nev) {
       return element
     }
   };
@@ -20,32 +20,25 @@ function tartalmaz(lista:AuthorQuotes[],nev:string) {
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-  
-  @Get()
-  @Render('index')
-  getHello() {
-    return {
-      message: this.appService.getHello()
-    };
-  }
+  constructor(private readonly appService: AppService) { }
+
 
   @Get("/quotes")
   @Render('listidezet')
   getqoutes() {
     return {
-      message:"BAZ+",
-      idezet:quotes.quotes
+      message: "BAZ+",
+      idezet: quotes.quotes
     };
   }
 
   @Get("/randomQuote")
   @Render('idezetegyedul')
   getrandomqoutes() {
-    let szam= randomInt(quotes.quotes.length)
+    let szam = randomInt(quotes.quotes.length)
     return {
-      message:"BAZ+",
-      idezet:quotes.quotes[szam]
+      message: "BAZ+",
+      idezet: quotes.quotes[szam]
     };
   }
 
@@ -55,21 +48,51 @@ export class AppController {
 
     let aq: AuthorQuotes[] = []
     quotes.quotes.forEach(e => {
-      let x=tartalmaz(aq,e.author)
-      if(x!=null){
+      let x = tartalmaz(aq, e.author)
+      if (x != null) {
         x.quotes.push(e.quote)
-      }else{
+      } else {
         aq.push({ author: e.author, quotes: [e.quote] })
       }
     });
 
-    aq.sort((a,b)=>{
-      return b.quotes.length-a.quotes.length
+    aq.sort((a, b) => {
+      return b.quotes.length - a.quotes.length
     })
-    
+
     return {
-      message:"BAZ+",
-      author:aq
+      message: "BAZ+",
+      author: aq
     };
   }
+
+
+  @Get('quotes/:id')
+  @Render('idezetegyedul')
+  oneQuote(@Param('id') id: string) {
+    return {
+      message: "BAZ+",
+      idezet: quotes.quotes[id]
+    };
+  }
+
+  @Get('deleteQuote/:id')
+  @Render('deleteresponse')
+  deleteqoute(@Param('id') id: string) {
+    for (let element of quotes.quotes) {
+      if (element.id == parseInt(id)) {
+        quotes.quotes.splice(quotes.quotes.indexOf(element), 1)
+        return {
+          message: "BAZ+",
+          valasz: "Sikeres törlés"
+        };
+      }
+    }
+    return {
+      message: "BAZ+",
+      valasz: "Nincs ilyen elem!!!!!!"
+    };
+
+  }
+
 }
