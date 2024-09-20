@@ -81,8 +81,9 @@ export class AppController {
     return {
       message: "BAZ+",
       idezet: {
-        quote:"Nincs ilyen elem!!!!!!",
-        author:""
+        quote:"Nincs ilyen elem!",
+        author:"",
+        img:""
       }
     };
     
@@ -93,6 +94,7 @@ export class AppController {
   deleteqoute(@Param('id') id: string) {
     for (let element of quotes.quotes) {
       if (element.id == parseInt(id)) {
+        
         quotes.quotes.splice(quotes.quotes.indexOf(element), 1)
         return {
           message: "BAZ+",
@@ -100,11 +102,11 @@ export class AppController {
         };
       }
     }
+    
     return {
       message: "BAZ+",
-      valasz: "Nincs ilyen elem!!!!!!"
+      valasz: "Nincs ilyen elem!!!"
     };
-
   }
 
 }

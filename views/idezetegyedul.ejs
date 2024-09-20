@@ -10,12 +10,22 @@
 </head>
 <body> 
     
-<blockquote>
-    <%=
-    idezet.quote
-    %>
-</blockquote>
-<p>Author: <%= idezet.author %></p>
+
+<p></p>
+
+<div class="card text-bg-dark w-50 mx-auto">
+    <img src="<%= idezet.img %>" class="rounded w-50 mx-auto" alt="">
+    <div class="card-img-overlay">
+      <h5 class="card-title bg-white bg-opacity-25"  ></h5>
+      <blockquote class="card-text">
+        <%=
+        idezet.quote
+        %>
+    </blockquote>
+      
+      <p class="card-text"><small>Author: <%= idezet.author %></small></p>
+    </div>
+  </div>
     
 </body>
 </html>
