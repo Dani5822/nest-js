@@ -70,10 +70,22 @@ export class AppController {
   @Get('quotes/:id')
   @Render('idezetegyedul')
   oneQuote(@Param('id') id: string) {
+    for (let element of quotes.quotes) {
+      if (element.id == parseInt(id)) {
+        return {
+          message: "BAZ+",
+          idezet: quotes.quotes[quotes.quotes.indexOf(element)]
+        };
+      }
+    }
     return {
       message: "BAZ+",
-      idezet: quotes.quotes[id]
+      idezet: {
+        quote:"Nincs ilyen elem!!!!!!",
+        author:""
+      }
     };
+    
   }
 
   @Get('deleteQuote/:id')
